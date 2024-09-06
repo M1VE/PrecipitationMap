@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_01f472177d21ec2f7d076076c6fa88d2 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+    <script src="https://cdn.jsdelivr.net/gh/python-visualization/folium@main/folium/templates/leaflet_heat.min.js"></script>
+</head>
+<body>
+    
+    
+<div style="position: fixed; 
+            top: 10px; right: 10px; width: 180px; height: 300px; 
+            background-color: white; z-index:9999; font-size:14px;
+            border:2px solid grey; padding: 10px; text-align: left;">
+    <b>Precipitation (mm)</b><br>
+    <div style="height: 250px; background: linear-gradient(to bottom, red, orange, yellow, lightgreen, cyan, blue); width: 30px; float: left; margin-right: 10px;"></div>
+    <div style="position: relative; height: 250px; display: flex; flex-direction: column; justify-content: space-between;">
+        <span style="text-align: right;">390</span>
+        <span style="text-align: right;">3330</span>
+    </div>
+</div>
+    
+            <div class="folium-map" id="map_01f472177d21ec2f7d076076c6fa88d2" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_01f472177d21ec2f7d076076c6fa88d2 = L.map(
+                "map_01f472177d21ec2f7d076076c6fa88d2",
+                {
+                    center: [42.8, 74.6],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 8,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_98485d32e8e5c58332f98b45f32547e7 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors", "detectRetina": false, "maxNativeZoom": 19, "maxZoom": 19, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            );
+        
+    
+            tile_layer_98485d32e8e5c58332f98b45f32547e7.addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            var heat_map_32131a4931d0012a129b69f764b196ff = L.heatLayer(
+                [[42.9, 74.6, 0.0], [42.8, 74.7, 0.04081632653061224], [43.0, 74.5, 0.02040816326530612], [42.7, 74.8, 0.08163265306122448], [42.6, 74.9, 0.061224489795918366], [42.9, 74.4, 0.10204081632653061], [42.5, 75.0, 0.12244897959183673], [43.0, 74.3, 0.14285714285714285], [42.8, 74.2, 0.16326530612244897], [42.7, 74.1, 0.1836734693877551], [42.6, 74.0, 0.20408163265306123], [42.8, 74.6, 0.22448979591836735], [42.7, 74.5, 0.24489795918367346], [42.6, 74.7, 0.2653061224489796], [42.9, 74.8, 0.2857142857142857], [42.9, 74.3, 0.30612244897959184], [42.7, 74.9, 0.32653061224489793], [43.0, 74.2, 0.3469387755102041], [42.9, 74.1, 0.3673469387755102], [42.8, 74.0, 0.3877551020408163], [42.7, 74.6, 0.40816326530612246], [42.8, 74.7, 0.42857142857142855], [42.9, 74.5, 0.4489795918367347], [42.7, 74.4, 0.46938775510204084], [42.6, 74.3, 0.4897959183673469], [42.5, 74.2, 0.5102040816326531], [42.4, 74.1, 0.5306122448979592], [42.3, 74.0, 0.5510204081632653], [42.6, 74.9, 0.5714285714285714], [42.5, 74.8, 0.5918367346938775], [42.4, 74.7, 0.6122448979591837], [42.3, 74.6, 0.6326530612244898], [42.2, 74.5, 0.6530612244897959], [42.1, 74.4, 0.673469387755102], [42.0, 74.3, 0.6938775510204082], [42.2, 74.2, 0.7142857142857143], [42.3, 74.1, 0.7346938775510204], [42.4, 74.0, 0.7551020408163265], [42.9, 75.1, 0.7755102040816326], [42.8, 75.0, 0.7959183673469388], [42.7, 74.9, 0.8163265306122449], [42.6, 74.8, 0.8367346938775511], [42.5, 74.7, 0.8571428571428571], [42.4, 74.6, 0.8775510204081632], [42.3, 74.5, 0.8979591836734694], [42.2, 74.4, 0.9183673469387755], [42.1, 74.3, 0.9387755102040817], [42.0, 74.2, 0.9591836734693877], [43.0, 75.1, 0.9795918367346939], [42.9, 75.0, 1.0]],
+                {"blur": 15, "gradient": {"0": "red", "0.2": "orange", "0.4": "yellow", "0.6": "lightgreen", "0.8": "cyan", "1": "blue"}, "maxZoom": 18, "minOpacity": 0.5, "radius": 25}
+            );
+        
+    
+            heat_map_32131a4931d0012a129b69f764b196ff.addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            var circle_marker_4b6d50b40aa844cb718a580655ef2b92 = L.circleMarker(
+                [42.9, 74.6],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_4b6d50b40aa844cb718a580655ef2b92.bindTooltip(
+                `<div>
+                     Точка #1, Осадки: 390.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_5f5929220ed24a9756abeeb57b02b16e = L.circleMarker(
+                [42.8, 74.7],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_5f5929220ed24a9756abeeb57b02b16e.bindTooltip(
+                `<div>
+                     Точка #2, Осадки: 510.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_633e9316df7c4c73e4e35a0fcc5e1f1a = L.circleMarker(
+                [43.0, 74.5],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_633e9316df7c4c73e4e35a0fcc5e1f1a.bindTooltip(
+                `<div>
+                     Точка #3, Осадки: 450.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_0279e707e4d465b1b2c39a6759f3e158 = L.circleMarker(
+                [42.7, 74.8],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_0279e707e4d465b1b2c39a6759f3e158.bindTooltip(
+                `<div>
+                     Точка #4, Осадки: 630.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_444d0f6f58e144fe3d59d79f01c2f411 = L.circleMarker(
+                [42.6, 74.9],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_444d0f6f58e144fe3d59d79f01c2f411.bindTooltip(
+                `<div>
+                     Точка #5, Осадки: 570.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_d40735b92059091418c5034d52b03b0c = L.circleMarker(
+                [42.9, 74.4],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_d40735b92059091418c5034d52b03b0c.bindTooltip(
+                `<div>
+                     Точка #6, Осадки: 690.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_550191bfe9ab5766d3b3a88e2b2f32cc = L.circleMarker(
+                [42.5, 75.0],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_550191bfe9ab5766d3b3a88e2b2f32cc.bindTooltip(
+                `<div>
+                     Точка #7, Осадки: 750.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_b33b4a6e088aceb79d8ec5864711ecab = L.circleMarker(
+                [43.0, 74.3],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_b33b4a6e088aceb79d8ec5864711ecab.bindTooltip(
+                `<div>
+                     Точка #8, Осадки: 810.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_1a090ecce6c1f83901d2f9d419686314 = L.circleMarker(
+                [42.8, 74.2],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_1a090ecce6c1f83901d2f9d419686314.bindTooltip(
+                `<div>
+                     Точка #9, Осадки: 870.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_8ffcc60605ac22128b88806bad410790 = L.circleMarker(
+                [42.7, 74.1],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_8ffcc60605ac22128b88806bad410790.bindTooltip(
+                `<div>
+                     Точка #10, Осадки: 930.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_7b6e4e937e8cd9d5d8d74b81755bea59 = L.circleMarker(
+                [42.6, 74.0],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_7b6e4e937e8cd9d5d8d74b81755bea59.bindTooltip(
+                `<div>
+                     Точка #11, Осадки: 990.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_d905feb1196de44fb60267d991213ba1 = L.circleMarker(
+                [42.8, 74.6],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_d905feb1196de44fb60267d991213ba1.bindTooltip(
+                `<div>
+                     Точка #12, Осадки: 1050.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_16ce6ba5c8be566bd2fb72a414856479 = L.circleMarker(
+                [42.7, 74.5],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_16ce6ba5c8be566bd2fb72a414856479.bindTooltip(
+                `<div>
+                     Точка #13, Осадки: 1110.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_4bc95cedc25305c24c2e6c37797f5cd0 = L.circleMarker(
+                [42.6, 74.7],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_4bc95cedc25305c24c2e6c37797f5cd0.bindTooltip(
+                `<div>
+                     Точка #14, Осадки: 1170.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_c2d0b5fe6821d3818ba880f3f509ccbc = L.circleMarker(
+                [42.9, 74.8],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_c2d0b5fe6821d3818ba880f3f509ccbc.bindTooltip(
+                `<div>
+                     Точка #15, Осадки: 1230.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_d6a1d928bf86bc3e9136e190f653450e = L.circleMarker(
+                [42.9, 74.3],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_d6a1d928bf86bc3e9136e190f653450e.bindTooltip(
+                `<div>
+                     Точка #16, Осадки: 1290.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_5e932c780c76328f97b838d07e1ad7e2 = L.circleMarker(
+                [42.7, 74.9],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_5e932c780c76328f97b838d07e1ad7e2.bindTooltip(
+                `<div>
+                     Точка #17, Осадки: 1350.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_f6a05d3b3ff0762825b0271f8d8bb7c0 = L.circleMarker(
+                [43.0, 74.2],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_f6a05d3b3ff0762825b0271f8d8bb7c0.bindTooltip(
+                `<div>
+                     Точка #18, Осадки: 1410.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_f162c951f46d1688f0475bc67c8859b3 = L.circleMarker(
+                [42.9, 74.1],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_f162c951f46d1688f0475bc67c8859b3.bindTooltip(
+                `<div>
+                     Точка #19, Осадки: 1470.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_0f3b36a40a96ef702ead0eadf4a54b19 = L.circleMarker(
+                [42.8, 74.0],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_0f3b36a40a96ef702ead0eadf4a54b19.bindTooltip(
+                `<div>
+                     Точка #20, Осадки: 1530.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_ae00617940bfe4b38b9b571a98b43866 = L.circleMarker(
+                [42.7, 74.6],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_ae00617940bfe4b38b9b571a98b43866.bindTooltip(
+                `<div>
+                     Точка #21, Осадки: 1590.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_7bf3385f481601a27f846b63370b087c = L.circleMarker(
+                [42.8, 74.7],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_7bf3385f481601a27f846b63370b087c.bindTooltip(
+                `<div>
+                     Точка #22, Осадки: 1650.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_7f090403e99f46d0862c425cb110112d = L.circleMarker(
+                [42.9, 74.5],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_7f090403e99f46d0862c425cb110112d.bindTooltip(
+                `<div>
+                     Точка #23, Осадки: 1710.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_eda62bdea9aa0d098d348a11a2c7d29a = L.circleMarker(
+                [42.7, 74.4],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_eda62bdea9aa0d098d348a11a2c7d29a.bindTooltip(
+                `<div>
+                     Точка #24, Осадки: 1770.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_d01d4d9acd5e8433e5d9fea287f19063 = L.circleMarker(
+                [42.6, 74.3],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_d01d4d9acd5e8433e5d9fea287f19063.bindTooltip(
+                `<div>
+                     Точка #25, Осадки: 1830.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_1fd5bf0465a921c7e91bd1217a3c9af2 = L.circleMarker(
+                [42.5, 74.2],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_1fd5bf0465a921c7e91bd1217a3c9af2.bindTooltip(
+                `<div>
+                     Точка #26, Осадки: 1890.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_09272bbaa4596851e568ec6f393c181b = L.circleMarker(
+                [42.4, 74.1],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_09272bbaa4596851e568ec6f393c181b.bindTooltip(
+                `<div>
+                     Точка #27, Осадки: 1950.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_3266e38aedfa4131ad05cfed1dfa9098 = L.circleMarker(
+                [42.3, 74.0],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_3266e38aedfa4131ad05cfed1dfa9098.bindTooltip(
+                `<div>
+                     Точка #28, Осадки: 2010.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_c9a8bf212f7aee9dd14f9688d37e062b = L.circleMarker(
+                [42.6, 74.9],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_c9a8bf212f7aee9dd14f9688d37e062b.bindTooltip(
+                `<div>
+                     Точка #29, Осадки: 2070.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_6229d389682cd33e0db3f110ebb2ba80 = L.circleMarker(
+                [42.5, 74.8],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_6229d389682cd33e0db3f110ebb2ba80.bindTooltip(
+                `<div>
+                     Точка #30, Осадки: 2130.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_e9435d875d847bffe3850a289e3cb211 = L.circleMarker(
+                [42.4, 74.7],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_e9435d875d847bffe3850a289e3cb211.bindTooltip(
+                `<div>
+                     Точка #31, Осадки: 2190.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_7f5870dd6e66127e333af6284817626f = L.circleMarker(
+                [42.3, 74.6],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_7f5870dd6e66127e333af6284817626f.bindTooltip(
+                `<div>
+                     Точка #32, Осадки: 2250.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_8b1315d222d999a27c146722fcd33b87 = L.circleMarker(
+                [42.2, 74.5],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_8b1315d222d999a27c146722fcd33b87.bindTooltip(
+                `<div>
+                     Точка #33, Осадки: 2310.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_9c1153f5def34ea8b40bfbde6f326dd4 = L.circleMarker(
+                [42.1, 74.4],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_9c1153f5def34ea8b40bfbde6f326dd4.bindTooltip(
+                `<div>
+                     Точка #34, Осадки: 2370.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_16ea2cf02b0ee5cda6bfe8b6cee0cbd0 = L.circleMarker(
+                [42.0, 74.3],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_16ea2cf02b0ee5cda6bfe8b6cee0cbd0.bindTooltip(
+                `<div>
+                     Точка #35, Осадки: 2430.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_9aa88acddbb3dece57e95a044201156c = L.circleMarker(
+                [42.2, 74.2],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_9aa88acddbb3dece57e95a044201156c.bindTooltip(
+                `<div>
+                     Точка #36, Осадки: 2490.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_878d854d1ceb1cb9c0563bede4674dcc = L.circleMarker(
+                [42.3, 74.1],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_878d854d1ceb1cb9c0563bede4674dcc.bindTooltip(
+                `<div>
+                     Точка #37, Осадки: 2550.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_33e7afa6ed131e5b2fe353f21b340f3f = L.circleMarker(
+                [42.4, 74.0],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_33e7afa6ed131e5b2fe353f21b340f3f.bindTooltip(
+                `<div>
+                     Точка #38, Осадки: 2610.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_1825026f5b70f03cffe3048ea407784d = L.circleMarker(
+                [42.9, 75.1],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_1825026f5b70f03cffe3048ea407784d.bindTooltip(
+                `<div>
+                     Точка #39, Осадки: 2670.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_1998ca405d44e3cdbb7fa0bae4c65fd1 = L.circleMarker(
+                [42.8, 75.0],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_1998ca405d44e3cdbb7fa0bae4c65fd1.bindTooltip(
+                `<div>
+                     Точка #40, Осадки: 2730.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_c5b7b4a056226b8098a348f26e5543bc = L.circleMarker(
+                [42.7, 74.9],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_c5b7b4a056226b8098a348f26e5543bc.bindTooltip(
+                `<div>
+                     Точка #41, Осадки: 2790.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_e5174d85a35360f1d507f10f90aa9960 = L.circleMarker(
+                [42.6, 74.8],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_e5174d85a35360f1d507f10f90aa9960.bindTooltip(
+                `<div>
+                     Точка #42, Осадки: 2850.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_c568ee4a80d06ae199506ab83a136890 = L.circleMarker(
+                [42.5, 74.7],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_c568ee4a80d06ae199506ab83a136890.bindTooltip(
+                `<div>
+                     Точка #43, Осадки: 2910.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_3f6af4be504a7fca64902650409041f3 = L.circleMarker(
+                [42.4, 74.6],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_3f6af4be504a7fca64902650409041f3.bindTooltip(
+                `<div>
+                     Точка #44, Осадки: 2970.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_87b2e6f2c7f1716ed2cb78e3c2466952 = L.circleMarker(
+                [42.3, 74.5],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_87b2e6f2c7f1716ed2cb78e3c2466952.bindTooltip(
+                `<div>
+                     Точка #45, Осадки: 3030.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_4c9842178a43ceaaae9bbf3399788367 = L.circleMarker(
+                [42.2, 74.4],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_4c9842178a43ceaaae9bbf3399788367.bindTooltip(
+                `<div>
+                     Точка #46, Осадки: 3090.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_40be919a371c05d3b85bd497b2cbbdc2 = L.circleMarker(
+                [42.1, 74.3],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_40be919a371c05d3b85bd497b2cbbdc2.bindTooltip(
+                `<div>
+                     Точка #47, Осадки: 3150.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_5da680df7e99901d38d9c7bce94c4afc = L.circleMarker(
+                [42.0, 74.2],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_5da680df7e99901d38d9c7bce94c4afc.bindTooltip(
+                `<div>
+                     Точка #48, Осадки: 3210.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_c36944248fee46616095fd1ca4beec80 = L.circleMarker(
+                [43.0, 75.1],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_c36944248fee46616095fd1ca4beec80.bindTooltip(
+                `<div>
+                     Точка #49, Осадки: 3270.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_04bc7f8334b50628ee19503e9be63642 = L.circleMarker(
+                [42.9, 75.0],
+                {"bubblingMouseEvents": true, "color": "transparent", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "transparent", "fillOpacity": 0, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_01f472177d21ec2f7d076076c6fa88d2);
+        
+    
+            circle_marker_04bc7f8334b50628ee19503e9be63642.bindTooltip(
+                `<div>
+                     Точка #50, Осадки: 3330.0 мм
+                 </div>`,
+                {"sticky": true}
+            );
+        
+</script>
+</html>
